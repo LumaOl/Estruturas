@@ -1,0 +1,39 @@
+#include <stdio.h>          //bibliotecas
+#include <stdlib.h>
+#include <math.h>
+
+typedef struct retangulo{       //typedef armazena dados do retangulo
+    float base;
+    float altura;
+} Ret; //renomear estruturas
+
+typedef struct circulo{      //typedef armazena dados do circulo
+    float raio;
+} Circ;     //renomear estruturas
+
+Ret * ret_circunscrito(Circ *c, float h){       //funcao secundaria
+    Ret *r= malloc(sizeof(Ret));        // alocacao dinamica do Retangulo r
+    r->base = 2 * sqrt(pow(c->raio, 2) - pow(h, 2));        //formula de calcular base se um retangrlo
+    r->altura = h;      //struct r recebendo altura iguala altura
+    return r; //retorna r
+}
+
+Circ * circ_interno(Ret *r){        //funcao secundaria
+    Circ *c = malloc(sizeof(Circ));     // alocacao dinamica do Circulo c
+    c->raio = sqrt(pow(r->base, 2) + pow(r->altura, 2)) / 2;    //formula de calcular o raio se um circulo
+    return c;       //retorna r
+}
+
+
+int main(void){     //funcao principal
+    Circ *c = malloc(sizeof(Circ));  //alocacao dinamica
+    c->raio = 5;    //informando que raio e igual a 5
+    Ret *r = ret_circunscrito(c, 3);        //informando que aa base e igual a 3
+
+    printf("Base: %f \n", r->base);         //mostrar resultado do calculo da base
+    printf("Altura: %f\n", r->altura);      //mostrar resultado do calculo da altura
+
+    free(c);    //liberar memoria dos dados do circulo
+    free(r);    //liberar memoria dos dados do retangulo    
+    return 0;   //encerrar codigo
+}  //fim
