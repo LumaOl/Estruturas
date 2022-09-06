@@ -1,0 +1,100 @@
+#include<stdio.h>       //bibliotecas
+#include<stdlib.h>
+#include <string.h>
+
+typedef struct alunos{      // typedef armazenas dados na estrutura
+    int matricula;
+    char nome[80];
+    char turma;
+    float vet[3];
+    float media;
+}Alunos;        //renomear a estrutura
+
+void matricula(int n, Alunos **alunos){     //funcao secundaria
+    int i=0;        //declaraco de contador
+    if(i<n){
+        alunos[i]=(Alunos*)malloc(n*sizeof(Alunos));        //malloc para armazenar dados informados
+        if(alunos[i] == NULL){      //um erro para acessar um endereço
+            printf("MEMORIA CHEIA \n");
+            exit(1);        //encerra um programa
+        }else {     //preencher campos pedidos ao usuario
+            printf("Informe sua  matricula: \n");
+            scanf("%d", &alunos[i]->matricula);
+            printf("Informe a turma: \n");
+            scanf("%c", &alunos[i]->turma);
+            printf("Informe o nome: \n ");
+            scanf("%80[^\n]", &alunos[i]->nome);
+            alunos[i]->vet[0]=0;        // nota 1 ser guardada em vet[0]
+            alunos[i]->vet[1]=0;        // nota 2 ser guardada em vet[1]
+            alunos[i]->vet[2]=0;        // nota 3 ser guardada em vet[2]
+            alunos[i]->media=0;         // notas guardadas na estruturas ser recebidas em media
+            i++;
+        }
+    }else{
+        printf("NAO HA VAGAS");
+    }
+}
+
+void lanca_notas(int n, Alunos **alunos){        //funcao secundaria
+    int i;      //declaraco de contador
+    for(i=0;i<n;i++){
+        if(alunos[i]!=NULL){        //um erro para acessar um endereço
+            printf("Aluno %d\n", i+1);      //informa o numero do aluno
+            printf("Informe a primeira nota:\n");       //pedindo nota 1 do aluno
+            scanf("%f", &alunos[i]->vet[0]);         //guardando e lendo valor informado pelo usuario
+            printf("Informe a segunda nota:\n");         //pedindo nota 2 do aluno
+            scanf("%f", &alunos[i]->vet[1]);        //guardando e lendo valor informado pelo usuario
+            printf("Informe a terceira nota:\n");        //pedindo nota 3 do aluno
+            scanf("%f", &alunos[i]->vet[2]);        //guardando e lendo valor informado pelo usuario
+            alunos[i]->media=(alunos[i]->vet[0] + alunos[i]->vet[1] + alunos[i]->vet[2])/3;
+                //fazendo media aritmedica das notas do aluno
+            printf("Media: %.2f \n", alunos[i]->media);     //informando o resultado da mdia do aluno
+        }
+    } 
+}
+
+void imprime_tudo(int n, Alunos **alunos){       //funcao secundaria
+    int i;      //declaraco de contador
+    for(i=0; i<n; i++){
+        if(alunos[i]!= NULL){       //um erro para acessar um endereço
+            printf("\n Matricula:  %d \n", alunos[i]->matricula );      //imprimindo matricula
+            printf("Nome: %s \n", alunos[i]->nome);     //imprimindo nome
+            printf("Turma: %s \n", alunos[i]->turma);       //imprimindo turma          
+        }
+    }
+}
+
+void imprime_turma(int n, Alunos **alunos, char turma){      //funcao secundaria
+    int i;      //declaraco de contador
+    for(i=0; i<n; i++){
+        if(alunos[i]!= NULL){       //um erro para acessar um endereço
+        printf("\n Matricula:  %d \n", alunos[i]->matricula );      //imprimindo matricula
+        printf("Nome: %s \n", alunos[i]->nome);     //imprimindo nome
+        printf("Turma: %s \n", alunos[i]->turma);     //imprimindo turma       
+        }
+    }
+}
+
+void imprime_turma_aprovados(int n,Alunos **alunos, char turma){         //funcao secundaria
+    int i;      //declaraco de contador
+    for(i=0;i<n;i++){
+        if(alunos[i]!=NULL && alunos[i]->turma==turma){
+           if(alunos[i]->media>=7){     //loop para encontrar medias maior ou igual que 7
+                //imprimi dados do alunos com media maior ou igual 7
+                printf("\n Matricula:  %d \n", alunos[i]->matricula);
+                printf("Nome: %s \n", alunos[i]->nome);
+                printf("Media: %f \n, APROVADO \n", alunos[i]->media);
+           }
+        }
+    }
+}
+
+int main(void){     //funcao principal
+    int n=10;   //numero maximo de alunos na turma
+    Alunos *alunos[n];      //chamando struct 
+    matricula(n,alunos);        //chamando funcao matricula 
+    lanca_notas(n,alunos);      //chamando funcaolancar notas 
+    imprime_tudo(n,alunos);         //chamando funcao imprime_tudo 
+    imprime_turma(n,alunos, 'a');       //chamando funcao imprime_turma 
+    imprime_turma_aprovados(n,alunos, 'a');     //chamando funcao imprime_turma_aprovados 
+}
