@@ -1,0 +1,107 @@
+#include <stdio.h>  // biblioteca
+#include <stdlib.h> 
+
+typedef struct ingresso{        // typedef armazenas dados na estrutura
+    int preco;              // declaração da variavel preco 
+    char local[ 100 ];   // declaração da variavel local 
+    char atracao[ 100 ]; // declaração da variavel atração 
+
+} ingresso;     //renomear estruturas
+
+void  preeche (ingresso *i){ //funcao secudaria
+
+    printf("Informe o preco do ingresso: \n "); // pedindo o preco
+    scanf("%d ", &i-> preco);      //lendo e guardando os valores informados
+
+    printf ("Informe o local: \n");     //pedindo o local
+    scanf ("%[^ \n ]", i-> local);    //lendo e guardando os valores informados
+
+    printf ("digite a atracao: \n " );      // pedindo a atracao
+    scanf ("%[^ \n ]", i-> atracao );       //lendo e guardando os valores informados
+}
+
+void imprime(ingresso *i){     //funcao secudaria
+
+//mostrará o as informacoes informados pelo usuario via teclado
+  printf("Atração: %s\nLocal: %s\nPreço: %.2f\n", i->atracao ,i->local ,i->preco);
+}
+
+void alterar_preco(ingresso *i, float valor){     //funcao secudaria
+
+    i-> preco = valor;      //struct i recebendo preco igual a valor
+}
+
+void imprime_menor_maior_preco ( int n, ingresso *v){ //funcao secudaria
+    int i, j, maior = 0 , menor = 0 ;       //declaracao de variaveis
+    maior = v[ 0 ]. preco ;
+    menor = v[ 0 ]. preco ;
+
+    for (i = 0 ; i < n; i++){     //percorre todo tamanho do vetor
+        if (v[i]. preco > maior){   //caso v[i].preco for maior que a variavel, vai receber v[i].preco
+            maior = v[i]. preco ;
+        }
+        else if (v[i]. preco < menor){ // caso v[i].preco for menor que a variavel, receber v[i].preco
+            menor = v[i]. preco ;
+        }
+    }
+    printf("O maior preco: %d , o menor preco: %d \n " , maior, menor);  //mostrar maior e menor
+}
+
+void  preecher_vetor ( int n, ingresso *v){     //funcao secundaria
+    int i;      //contador
+    for (i = 0 ; i < n; i++){     //laco para repetir o numero de vezes informados pelo usuario
+        printf (" informe o preco do ingresso: \n"); // solicite ao usuario o preco do ingresso
+        scanf ("%d", &v[i].preco); // ler e guarda na variavel preco onde ov[i] acessa a variavel preco de struct
+            
+        printf ("Informe o local: \n"); // solicita ao usuario o local
+        scanf ( "%[^ \n ]", v[i].local ); // ler e guardar na variavel local onde ov[i] acessa a variavel local de struct
+            
+        printf ("Informe a atracao: \n"); // solicitar ao usuario a atracao
+        scanf ("%[^ \n ]", v[i].atracao); // // ler e guardar na variavel atracao onde ov[i] acessa a variavel atracao de struct
+    }
+
+        
+}
+
+    int  main ( void ){   // função principal
+        int tam, n1, escolha; // declaracao das variaveis 
+        float valor;  // declaracao das variaveis reais
+        ingresso i; // declarando a variavel [i] do tipo ingresso
+        ingresso *vetor; // declarando o ponteiro de vetor
+
+        printf("Digite '01' para varios eventos e achar o menor preco entre eles \n");
+        printf("Digitar '02' para apenas um evento e alterar preco \n");
+        printf("Escolha: \n");
+        scanf("%d", &escolha);
+        if(escolha == 1 ){
+            printf ("Informe o numero de ingressos a ser computados \n");   //pedindo tamanho do vetor
+            scanf ("%d", &n); // guarda e lendo o tamanho informado
+
+            vetor = (entrada*) malloc (n * sizeof (entrada)); // alocacao dinamica do vetor v
+            
+            preecher_vetor (tam, vetor);      //chamando funcao preenche_vetor
+            imprime_menor_maior_preco (n, vetor);       //chamando funcao impreme_maior_menor_preco
+
+        } else  if (escolha == 2 ){
+            preeche (&i);   // chamando funcao preecher
+            imprime (&i);   // chamando a funcao imprime
+
+            printf ( " Para alterar o preco do evento digite 1. \n " ); // caso o usuario deseja alterar o valor do preco do ingresso
+            scanf ( " %d " , &n1); // gurda o valor na variavel n
+            if (n1 == 1 ) // verificando a resposta do usuário
+            {
+                printf ("digite o novo valor: " );      //pedindo onovo valor ao usuario
+                scanf ("%f", &valor);       //lenso e guardando novo valor
+
+                alterar_preco (&i, valor); //chamando a funcao alterar-preco
+
+                printf ("\n");
+
+                imprime (&i); // chamada da função imprime
+            }
+        }
+        
+        free (vetor);  //liberando memoria
+
+     return 0;   //encerrar codigo
+    }   //fim
